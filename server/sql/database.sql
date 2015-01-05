@@ -98,3 +98,14 @@ Insert into drugs(name) values
        ('Sophidone')
 ;
 
+-- On donne la database a dbuser
+
+ALTER DATABASE server_database OWNER TO dbuser;
+alter table users owner to dbuser;
+alter table users owner to dbuser;
+alter table alerts owner to dbuser;
+alter table alert_types owner to dbuser;
+alter table posologies owner to dbuser;
+alter table hours owner to dbuser;
+alter table drugs owner to dbuser;
+alter table supervisors owner to dbuser;
