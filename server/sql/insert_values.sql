@@ -1,6 +1,6 @@
 -- Script d'insertion de valeurs pour test en base de données
 
-insert into doctors(id,name, first_name, password) values (1,'Maboul','Dr','pass');
+insert into doctors(id,name, first_name, password) values(1, 'House', 'Gregory', md5('vicodine'));
 
 insert into supervisors(id) values (1);
 

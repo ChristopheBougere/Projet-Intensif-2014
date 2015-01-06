@@ -7,3 +7,4 @@
  */
 
 $DEBUG = true;
+$GLOBALS['ROOT'] = "/home/serveur/web/Projet-Intensif-2014/server/";

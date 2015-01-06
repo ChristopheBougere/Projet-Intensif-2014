@@ -109,3 +109,4 @@ alter table posologies owner to dbuser;
 alter table hours owner to dbuser;
 alter table drugs owner to dbuser;
 alter table supervisors owner to dbuser;
+alter table doctors owner to dbuser;
