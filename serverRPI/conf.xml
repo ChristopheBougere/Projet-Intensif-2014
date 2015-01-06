@@ -1,6 +1,6 @@
 <root>
 <entry>
   <name>apiURL</name>
-  <value>http://192.168.137.74/</value>
+  <value>http://192.168.137.74/serverApi/actions/</value>
 </entry>
 </root>
