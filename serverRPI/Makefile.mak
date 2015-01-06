@@ -3,7 +3,7 @@ CFLAGS = -Wall
 EXEC_NAME = serverRPI
 INCLUDES =
 LIBS =
-OBJ_FILES = main.o Utilities/kernel.o Utilities/observable.o Utilities/observer.o Modules/falldown.o Manager/kernelmanager.o
+OBJ_FILES = main.o Utilities/kernel.o Utilities/observable.o Utilities/observer.o Modules/falldown.o Manager/kernelmanager.o libs/tinyxml2.o Utilities/config.o
 INSTALL_DIR = ./
 
 all : $(EXEC_NAME)
