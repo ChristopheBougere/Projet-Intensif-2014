@@ -1,6 +1,7 @@
 <?php
 
 require_once("../tools/utils.php");
+require_once("../config/global_config.php");
 
 if (empty($_GET)) {
     $tab = $_POST;
@@ -26,7 +27,12 @@ $request = "select d.name, p.quantity, h.posology_time "
 
 $rs = $db->Execute($request,array($userId));
 if (!$rs) {
-    echo $db->ErrorMsg();
+    if ($DEBUG) {
+        echo $db->ErrorMsg();
+    } else {
+        header('HTTP/1.1 400 Bad Request');
+        return;
+    }
 }
 
 $drugs = array();
