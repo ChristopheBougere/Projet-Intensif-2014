@@ -45,5 +45,6 @@ foreach ($drugs as $drug=>$posology) {
 }
 $jsonString = json_encode($json);
 
+header('Content-Type: application/json');
 echo $jsonString;
 ?>
