@@ -21,3 +21,7 @@ sudo -u postgres createdb -O dbuser server_database 2> /dev/null
 # Création des tables
 echo "Création des tables, insertion des valeurs par défaut"
 cat database.sql | sudo -u postgres psql -q server_database > /dev/null
+
+# Insertion de quelques valeurs de test
+echo "Insertion de valeurs de test"
+cat insert_values.sql | sudo -u postgres psql -q server_database > /dev/null
