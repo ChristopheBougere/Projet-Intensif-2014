@@ -23,7 +23,8 @@ create table alerts(
        user_id integer,
        alert_type_id integer,
        alert_date date,
-       alert_time time
+       alert_time time,
+       alert_level integer
 );
 
 drop table if exists alert_types cascade;
