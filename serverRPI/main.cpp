@@ -2,6 +2,9 @@
 
 #include "Manager/kernelmanager.h"
 #include "Modules/falldown.h"
+#include "Modules/MedDistrib/meddistrib.h"
+
+#include "screen.h"
 
 using namespace std;
 
@@ -17,6 +20,9 @@ int main()
 	MedDistrib medDistrib;
 	medDistrib.AddObs(&kernel);
 
+	screen();
+	
     return 0;
 }
+
 

@@ -69,6 +69,7 @@ int TimeU::Difference(TimeU *time2H)
         timeelapsed = (secDay - this->calculateSec()) + time2H->calculateSec();
         return timeelapsed;
     }
+    return 0;
 }
 
 int TimeU::calculateSec() {
