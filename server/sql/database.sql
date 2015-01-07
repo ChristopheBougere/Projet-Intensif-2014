@@ -56,7 +56,8 @@ create table drugs (
 
 drop table if exists supervisors cascade;
 create table supervisors (
-       id serial primary key
+       id serial primary key,
+       push_id varchar
 );
 
 
