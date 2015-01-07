@@ -75,7 +75,7 @@ bool ServerConnector::getPosology(int userId, Document& json) {
    return false;
 }
 
-bool ServerConnector::sendAlert(int userId, int alertType) {
+bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel) {
    Config* conf = Config::Instance();
    string apiURL = conf->getConf("apiURL");
 
@@ -89,11 +89,16 @@ bool ServerConnector::sendAlert(int userId, int alertType) {
    out << alertType;
    alertTypeString = out.str();
 
+   string alertLevelString;
+   stringstream outAL;
+   outAL << alertLevel;
+   alertLevelString = outAL.str();
+
    CURL *curl;
    CURLcode res;
    curl = curl_easy_init();
    if (curl) {
-      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString;
+      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString;
       cout << url << " " << url.length() << endl;
       char * cStrUrl = new char[url.length()+1];
       cout << cStrUrl << endl;

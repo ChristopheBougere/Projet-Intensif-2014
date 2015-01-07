@@ -39,7 +39,7 @@ class ServerConnector {
    
    bool getPosology(int /*userId*/,rapidjson::Document& /* outJson*/ );
 
-   bool sendAlert(int /*userId*/, int /*alertType*/);
+   bool sendAlert(int /*userId*/, int /*alertType*/, int /*alertLevel*/);
 
    bool registerUser(rapidjson::Document& /* outJson*/ );
 
