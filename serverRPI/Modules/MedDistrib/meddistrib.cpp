@@ -16,25 +16,29 @@ MedDistrib::MedDistrib()
 
     std::thread t_posology(&MedDistrib::getPosology, this);
 
+    // TEST
     Posology *newPoso = new Posology();
-    newPoso->setTimeU(11, 41, 00);
+    newPoso->setTimeU(12, 21, 00);
     newPoso->addPosology("A", 1);
 
     Posology *newPoso1 = new Posology();
-    newPoso1->setTimeU(11, 42, 00);
+    newPoso1->setTimeU(12, 22, 00);
     newPoso1->addPosology("A", 1);
 
     _posologyList.push_back(*newPoso);
     _posologyList.push_back(*newPoso1);
+    
+    // END TEST
 
     if((int) _posologyList.size() != 0)
     {
         for(int c = 0 ; c < (int) _posologyList.size() ; c++)
         {
-            _threadList.push_back(std::thread(&MedDistrib::checkPosology, this, _posologyList[c]));
-            //t_areTaken.join();
-            //t_areTaken.detach();
+            Posology actPoso = _posologyList.at(c);
+            std::thread t_taken(&MedDistrib::checkPosology, this, &actPoso);
+            t_taken.join();
 
+            _threadList.push_back(std::move(t_taken));
         }
     }
 
