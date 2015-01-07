@@ -2,6 +2,7 @@
 
 Falldown::Falldown()
 {
+	std::cout << "FallDown() : demarrage du module" << std::endl;
 }
 
 void Falldown::Change(int valeur)

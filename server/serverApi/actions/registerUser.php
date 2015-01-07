@@ -1,7 +1,7 @@
 <?php
 
 require_once '../config/global_config.php';
-require_once '../tools/utils.php';
+require_once $GLOBALS['ROOT'].'serverApi/tools/utils.php';
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
