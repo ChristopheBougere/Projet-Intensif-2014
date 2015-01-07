@@ -96,15 +96,16 @@ bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel) {
 
    CURL *curl;
    CURLcode res;
+   string voidString;
    curl = curl_easy_init();
    if (curl) {
       string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString;
-      cout << url << " " << url.length() << endl;
       char * cStrUrl = new char[url.length()+1];
-      cout << cStrUrl << endl;
       strcpy (cStrUrl, url.c_str());
       cStrUrl[url.length()]='\0';
       curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &voidString);
       res = curl_easy_perform(curl);
       delete[] cStrUrl;
       if(res != CURLE_OK)
@@ -137,14 +138,15 @@ bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel, strin
    CURL *curl;
    CURLcode res;
    curl = curl_easy_init();
+   string voidString;
    if (curl) {
-      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString+"&stream__url="+streamUrl;
-      cout << url << " " << url.length() << endl;
+      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString+"&stream_url="+streamUrl;
       char * cStrUrl = new char[url.length()+1];
-      cout << cStrUrl << endl;
       strcpy (cStrUrl, url.c_str());
       cStrUrl[url.length()]='\0';
       curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &voidString);
       res = curl_easy_perform(curl);
       delete[] cStrUrl;
       if(res != CURLE_OK)
