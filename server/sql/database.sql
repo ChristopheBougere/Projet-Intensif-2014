@@ -78,7 +78,9 @@ alter table hours add constraint fk_posology_id foreign key (posology_id) refere
 
 -- Insertions de champs constants
 Insert into alert_types values 
-       (1,'Drugs not taken')
+       (1,'Les médicaments n''ont pas été pris'),
+       (2,'Chute'),
+       (3,'Demande d''urgence')
 ;
 
 Insert into drugs(name) values
