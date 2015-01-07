@@ -1,7 +1,7 @@
 <?php
 
-require_once("../tools/utils.php");
 require_once("../config/global_config.php");
+require_once($GLOBALS['ROOT']."serverApi/tools/utils.php");
 
 if (empty($_GET)) {
     $tab = $_POST;
