@@ -14,4 +14,8 @@ function getDatabaseConnection() {
     return $DB;
 }
 
+function sendPush($msg,$pushId) {
+    echo $msg." ".$pushId;
+}
+
 ?>
