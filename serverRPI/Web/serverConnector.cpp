@@ -96,15 +96,16 @@ bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel) {
 
    CURL *curl;
    CURLcode res;
+   string voidString;
    curl = curl_easy_init();
    if (curl) {
       string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString;
-      cout << url << " " << url.length() << endl;
       char * cStrUrl = new char[url.length()+1];
-      cout << cStrUrl << endl;
       strcpy (cStrUrl, url.c_str());
       cStrUrl[url.length()]='\0';
       curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &voidString);
       res = curl_easy_perform(curl);
       delete[] cStrUrl;
       if(res != CURLE_OK)
@@ -114,6 +115,48 @@ bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel) {
    }
    return false;
 }
+
+bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel, string streamUrl) {
+   Config* conf = Config::Instance();
+   string apiURL = conf->getConf("apiURL");
+
+   string userIdString;
+   stringstream outUID;
+   outUID << userId;
+   userIdString = outUID.str();
+
+   string alertTypeString;
+   stringstream out;
+   out << alertType;
+   alertTypeString = out.str();
+
+   string alertLevelString;
+   stringstream outAL;
+   outAL << alertLevel;
+   alertLevelString = outAL.str();
+
+   CURL *curl;
+   CURLcode res;
+   curl = curl_easy_init();
+   string voidString;
+   if (curl) {
+      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString+"&stream_url="+streamUrl;
+      char * cStrUrl = new char[url.length()+1];
+      strcpy (cStrUrl, url.c_str());
+      cStrUrl[url.length()]='\0';
+      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &voidString);
+      res = curl_easy_perform(curl);
+      delete[] cStrUrl;
+      if(res != CURLE_OK)
+	 return false;
+      curl_easy_cleanup(curl);
+      return true;
+   }
+   return false;
+}
+
 
 bool ServerConnector::registerUser(Document& json) {
    Config* conf = Config::Instance();
