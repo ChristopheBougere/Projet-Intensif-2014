@@ -14,6 +14,7 @@ if (empty($_GET)) {
 } else {
     $tab = $_GET;
 }
+
 if (array_key_exists("user_id", $tab) && !empty($tab["user_id"])) {
     $userId = $tab["user_id"];
 } else {
@@ -41,13 +42,16 @@ if (!$rs) {
         return;
     }
 }
+$db->Close();
 
 $update = "update users "
         . "set supervisor_id = ("
-            . "select id from supervisors where push_id = ?) "
+            . "select id from supervisors where push_id = ? limit 1) "
         . "where id = ?";
-$rs = $db->Execute($update,array($pushId,$userId));
-if (!$rs) {
+$db2 = getDatabaseConnection();
+
+$rs2 = $db2->Execute($update,array($pushId,$userId));
+if (!$rs2) {
     if ($DEBUG) {
         echo $db->ErrorMsg();
         return;

@@ -38,7 +38,6 @@ create table posologies (
        id serial primary key,
        user_id integer,
        drug_id integer,
-       quantity integer,
        start_date date,
        end_date date
 );
@@ -46,6 +45,7 @@ create table posologies (
 drop table if exists hours cascade;
 create table hours (
        posology_id integer,
+       quantity integer,
        posology_time time
 );
 

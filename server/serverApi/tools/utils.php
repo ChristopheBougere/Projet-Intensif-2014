@@ -6,8 +6,8 @@
  */
 
 function getDatabaseConnection() {
-    require_once($GLOBALS['ROOT'] . 'serverApi/config/database_config.php');
-    require_once($GLOBALS['ROOT'] . 'serverApi/lib/adodb5/adodb.inc.php');
+    require($GLOBALS['ROOT'] . 'serverApi/config/database_config.php');
+    require($GLOBALS['ROOT'] . 'serverApi/lib/adodb5/adodb.inc.php');
     $DB = NewADOConnection('postgres');
     $DB->Connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASSWORD, $DATABASE_NAME);
 	//$DB->debug = 1;

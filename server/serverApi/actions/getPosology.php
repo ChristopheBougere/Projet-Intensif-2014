@@ -17,7 +17,7 @@ if (array_key_exists("user_id", $tab) && !empty($tab["user_id"])) {
 
 $db = getDatabaseConnection();
 
-$request = "select d.name, p.quantity, h.posology_time "
+$request = "select d.name, h.quantity, h.posology_time "
         . "from posologies as p, hours as h, drugs as d "
         . "where user_id = ? "
         . "and p.drug_id = d.id "
