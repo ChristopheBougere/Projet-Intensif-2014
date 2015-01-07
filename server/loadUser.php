@@ -13,6 +13,7 @@ $db = getDatabaseConnection();
 <!-- Alertes -->
 <div class="formulaire" id="alertes"><fieldset>
 	<legend>Alertes</legend><ol>
+		
 	
 <?php
 $select = "select alert_date, alert_time, label from alerts join alert_types on alerts.alert_type_id=alert_types.id where user_id=?";

@@ -84,7 +84,7 @@ $db = getDatabaseConnection();
 			<legend>Vos patients</legend>
 			<select size="20" onchange="loadUser();" id="usersList">
 <?php
-$select = "select id, name, first_name from users where doctor_id=?";
+$select = "select id, name, first_name from users where doctor_id=? order by name, first_name";
 $rSelect = $db->Execute($select,array($_SESSION['id']));
 if(!$rSelect) {
 	if ($DEBUG) { echo $db->ErrorMsg(); return; }
