@@ -7,15 +7,15 @@ using namespace std;
 
 int main()
 {
-    Falldown falldownCaptor;
+	Kernel kernel = KernelManager::Instance();
 
-   {
-       Kernel kernel = KernelManager::Instance();
+	std::cout << "main() : lancement du serveur." << endl;
+	
+	Falldown falldownCaptor;
+	falldownCaptor.AddObs(&kernel);
 
-       falldownCaptor.AddObs(&kernel);
-       falldownCaptor.Change(3);
-   }
-
+	MedDistrib medDistrib;
+	medDistrib.AddObs(&kernel);
 
     return 0;
 }
