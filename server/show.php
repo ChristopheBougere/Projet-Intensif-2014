@@ -70,6 +70,12 @@ $db = getDatabaseConnection();
 		};
 		xmlhttp.send(null);
 	}
+	
+	function addUser() {
+		var myselect = document.getElementById("usersList");
+		var id = myselect.options[myselect.selectedIndex].value;
+		location.href = 'add.php?id=' + id;
+	}
   	</script>
 </head>
 <body>
@@ -96,6 +102,11 @@ while($array = $rSelect->FetchRow()) {
 }
 ?>
 			</select>
+			
+			<button type="type"button" id='search' class="btn btn-primary btn-lg btn-block">
+
+<input type="button" value="ajouter un patient" onclick="ajoutebtn()">
+</p>
 		</fieldset></div>
 	</div>
 	<div class="w100" id="details">
