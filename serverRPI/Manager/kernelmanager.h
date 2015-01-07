@@ -12,7 +12,7 @@ public:
     static Kernel Instance();
 
 private:
-    KernelManager& operator= (const KernelManager&){}
+    //KernelManager& operator= (const KernelManager&){}
     KernelManager (const KernelManager&){}
 
     static Kernel _kernel;
