@@ -41,6 +41,8 @@ class ServerConnector {
 
    bool sendAlert(int /*userId*/, int /*alertType*/, int /*alertLevel*/);
 
+   bool sendAlert(int /*userId*/, int /*alertType*/, int /*alertLevel*/, std::string /*streamUrl*/);
+
    bool registerUser(rapidjson::Document& /* outJson*/ );
 
  private :
