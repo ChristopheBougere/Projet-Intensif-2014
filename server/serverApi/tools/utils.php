@@ -14,4 +14,16 @@ function getDatabaseConnection() {
     return $DB;
 }
 
+function parseDate($orig) {
+	$values = split("-",$orig);
+	$return = $values[2]."/".$values[1]."/".$values[0];
+	return $return;
+}
+
+function parseTime($orig) {
+	$values = split(":",$orig);
+	$return = $values[0]."h".$values[1];
+	return $return;
+}
+
 ?>
