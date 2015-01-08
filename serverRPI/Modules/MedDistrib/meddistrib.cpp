@@ -47,20 +47,6 @@ MedDistrib::MedDistrib()
     std::thread t_posology(&MedDistrib::getPosology, this);
     t_posology.join();
 
-    // TEST
-    Posology *newPoso = new Posology();
-    newPoso->setTimeU(15, 07, 00);
-    newPoso->addPosology("Adrien", 1);
-
-    Posology *newPoso1 = new Posology();
-    newPoso1->setTimeU(15, 55, 00);
-    newPoso1->addPosology("Bastien", 4);
-
-    //_posologyList.push_back(*newPoso);
-    _posologyList.push_back(*newPoso1);
-    
-    // END TEST
-
     if((int) _posologyList.size() != 0)
     {
         for(int c = 0 ; c < (int) _posologyList.size() ; c++)
@@ -69,22 +55,17 @@ MedDistrib::MedDistrib()
             std::thread t_taken(&MedDistrib::checkPosology, this, &actPoso);
             if(t_taken.joinable())
 	    {
-		//std::cout << c << std::endl;
 		t_taken.join();
-		//std::cout << c << "finished" << std::endl;
 	    }
 
             _threadList.push_back(std::move(t_taken));
         }
     }
 
-	//std::cout << "TEST" << std::endl;
-
     /*for(int c = 0 ; c < _posologyList.size() ; c++)
     {
         _threadList.at(c).detach();
     }*/
-
 
     t_posology.detach();
 
