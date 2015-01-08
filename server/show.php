@@ -15,72 +15,46 @@ $db = getDatabaseConnection();
 <head>
 	<meta charset="utf-8" /> 
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<title>Maintien à domicile - Connexion</title>
+	<title>Care For You</title>
 	<link rel="stylesheet/less" type="text/css" href="css/show.less" />
+   <link rel="stylesheet/less" type="text/css" href="css/main.css" />
   	<script type="text/javascript" src="js/less.js"></script>
-  	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-  	<script type="text/javascript">
-	
-	function getXmlHttp() {
-		var x = false;
-		try {
-			x = new XMLHttpRequest();
-		} catch(e) {
-			try {
-				x = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch(ex) {
-				try {
-					req = new ActiveXObject("Msxml2.XMLHTTP");
-				}
-				catch(e1) {
-					x = false;
-				}
+  	<script type="text/javascript" src="js/main.js"></script>
+   <link rel="stylesheet" href="js/jquery/jquery-ui.min.css">
+<script src="js/jquery/external/jquery/jquery.js"></script>
+<script src="js/jquery/jquery-ui.min.js"></script>
+   <script type="text/javascript"> 
+   function addQuantity() {
+	$("#quantities").append("<p class='quantity_element'><a>Quantité </a><select name=\"quantity\" class=\"quantity\" ><?php
+			$q = 0;
+			while ($q<11) {
+				echo "<option>$q</option>";
+				$q = $q+1;
 			}
-		}
-		return x;
-	}
-	
-  	function disconnect() {
-		var xmlhttp = getXmlHttp();
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open('GET','./disconnect.php', true);
-		xmlhttp.onreadystatechange=function(){
-		   if (xmlhttp.readyState == 4){
-			  if(xmlhttp.status == 200){
-				 alert("Vous êtes maintenant déconnecté: " + xmlhttp.responseText);
-				 location.href = "index.html";
-			 }
-		   }
-		};
-		xmlhttp.send(null);
-	}
-	
-	function loadUser() {
-		var myselect = document.getElementById("usersList");
-		var id = myselect.options[myselect.selectedIndex].value;
-		var xmlhttp = getXmlHttp();
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open('GET','./loadUser.php?id=' + id, true);
-		xmlhttp.onreadystatechange=function(){
-		   if (xmlhttp.readyState == 4){
-			  if(xmlhttp.status == 200){
-				 document.getElementById("details").innerHTML = xmlhttp.responseText;
-			 }
-		   }
-		};
-		xmlhttp.send(null);
-	}
-	
-	function addUser() {
-		var myselect = document.getElementById("usersList");
-		var id = myselect.options[myselect.selectedIndex].value;
-		location.href = 'add.php?id=' + id;
-	}
-  	</script>
+			?></select><br/><a>Heure</a><br/><select name=\"hour\" class=\"hour\"><?php
+			$hour = 0;
+			while ($hour<24) {
+				echo "<option>$hour</option>";
+				$hour = $hour+1;
+			}
+			?></select><select name=\"minute\" class=\"minute\"><?php
+			$minute = 0;
+			while ($minute<60) {
+				echo "<option>$minute</option>";
+				$minute = $minute+5;
+			}
+			?></select></p><hr/>");
+			$( ".quantity" ).selectmenu() .selectmenu( "menuWidget" ).addClass( "overflow" );
+			$( ".hour" ).selectmenu() .selectmenu( "menuWidget" ).addClass( "overflow" );
+			$( ".minute" ).selectmenu() .selectmenu( "menuWidget" ).addClass( "overflow" );
+}
+   </script>
 </head>
 <body>
 	<header class="w100">
 		<div class="contenu">
+   <img src="img/framtouch.png" height="60px" id="frmtch"/>
+   <img src="img/cfy.png" height="60px" id="cfy"/>
 			 <h1>Bonjour Dr. <?php echo $_SESSION['name']; ?> - <a href="#" onclick="disconnect();">Se déconnecter</a></h1>
 		</div>
 	</header>
@@ -103,19 +77,23 @@ while($array = $rSelect->FetchRow()) {
 ?>
 			</select>
 			
-			<button type="type"button" id='search' class="btn btn-primary btn-lg btn-block">
 
-<input type="button" value="ajouter un patient" onclick="ajoutebtn()">
+			<input type="button" value="ajouter un patient"/>
 </p>
 		</fieldset></div>
 	</div>
-	<div class="w100" id="details">
+	<div id="details">
 		
 	</div>
 
 <?php
 
 ?>
+
+<div class="w100" id="dialog"></div>
+
+</div>
+
 	<footer class="w100">
 		<div class="contenu"></div>
 	</footer>

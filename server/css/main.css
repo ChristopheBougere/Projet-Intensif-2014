@@ -1,0 +1,32 @@
+#addPopUp {
+    width: 350px;
+}
+#addPopUp  label {
+display: block;
+margin: 30px 0 0 0;
+}
+#addPopUp select {
+width: 320px;
+height: 10px;
+}
+#addPopUp .hour,#addPopUp  .minute {
+width: 155px;
+ }
+#addPopUp .overflow {
+height: 100px;
+}
+#addPopUp a {
+   font-size:30px;
+}
+#addPopUp #plus {
+font-size:30px;
+}
+ .overflow {
+height:200px;
+}
+#frmtch{
+float:left;
+}
+#cfy{
+float:right;
+}
