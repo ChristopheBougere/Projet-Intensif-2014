@@ -34,7 +34,7 @@ while($array = $rSelect->FetchRow()) {
 	<legend>Traitement en cours</legend>
 <?php
 
-$select = "select d.name, h.posology_time, p.quantity, p.start_date, p.end_date "
+$select = "select d.name, h.posology_time, h.quantity, p.start_date, p.end_date "
 			." from posologies as p, hours as h, drugs as d "
 			." where p.id = h.posology_id "
 			." and d.id = p.drug_id "

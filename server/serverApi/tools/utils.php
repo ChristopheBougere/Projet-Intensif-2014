@@ -53,5 +53,13 @@ function sendPushNotificationToGCM($registration_ids, $message) {
     return $result;
 }
 
-//	sendPush("kinzeur zerau uite","APA91bFkVQdnGkIgi2q0Uv6dWKGU6V_3jwoUKYkV2xv0RlYPuZlje3Rmdj0qvjVyH7wLnPqPmNQDZ8cJQ6oX2TPkTlXmIeqSNlW2l83khxbcILdECQP6gEv6K2Vfv5Te1VvYJpv91tHygQ2VBofsWX_70dNBfB2aig");
+function parseDate($orig) {
+	$tab = split("-",$orig);
+	return $tab[2]."/".$tab[1]."/".$tab[0];
+}
+
+function parseTime($orig) {
+	$tab = split(":",$orig);
+	return $tab[0]."h".$tab[1];
+}
 
