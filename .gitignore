@@ -1,3 +1,5 @@
 *~
 *.o
 *.class
+/server/nbproject/private/
+/server/serverApi/nbproject/private/
