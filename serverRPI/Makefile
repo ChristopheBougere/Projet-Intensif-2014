@@ -6,7 +6,7 @@ LIBS = -Llibs -lgeniePi -lwiringPi -lpthread -lcurl
 OBJ_FILES = main.o screen.o Utilities/kernel.o Utilities/observable.o Utilities/observer.o Modules/falldown.o \
             Modules/MedDistrib/meddistrib.o Modules/MedDistrib/posology.o Modules/MedDistrib/posologystruct.o \
             Manager/kernelmanager.o libs/tinyxml2.o Utilities/config.o \
-            Web/serverConnector.o Utilities/timeu.o
+            Web/serverConnector.o Utilities/timeu.o screenmanager.o Utilities/alertlevel.o
 INSTALL_DIR = ./
 
 all : $(EXEC_NAME)

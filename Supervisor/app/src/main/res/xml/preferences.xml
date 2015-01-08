@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="numberPhone"
+        android:summary="Entrez le numéro de téléphone"
+        android:title="Contact"
+        android:inputType="number"/>
+
+    <EditTextPreference
+        android:key="serveur"
+        android:summary="Entrez l'adresse du serveur"
+        android:title="Serveur"
+        android:inputType="text"/>
+
+
+</PreferenceScreen>

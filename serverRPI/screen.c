@@ -1,5 +1,16 @@
 #include "screen.h"
 
+void notify_med() {
+	printf("Il faut prendre les medicaments\n");
+	// Changement d'écran
+	genieWriteObj(GENIE_OBJ_FORM, 1, 0);
+}
+
+void notify_drawer() {
+	printf("Le tiroir a été fermé.");
+	genieWriteObj(GENIE_OBJ_FORM, 0, 0);	
+}
+
 char* getDateStr(struct tm *t) {
 	int wday = t->tm_wday;
 	int mday = t->tm_mday;
@@ -77,6 +88,9 @@ void screen(void) {
 				int alert_type = 3;
 				int alert_level = 2;
 				sc.sendAlert(user_id, alert_type, alert_level);
+				genieWriteObj(GENIE_OBJ_FORM, 3, 0);
+				sleep(60);
+				genieWriteObj(GENIE_OBJ_FORM, 0, 0);
 			}
 		}
 		usleep(10000);
