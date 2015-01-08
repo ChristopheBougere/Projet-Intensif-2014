@@ -45,6 +45,8 @@ class ServerConnector {
 
    bool registerUser(rapidjson::Document& /* outJson*/ );
 
+   bool isRecentFalldown(int /*userId*/, rapidjson::Document& /* outJson*/ );
+
  private :
 
    size_t static write(void *ptr, size_t size, size_t nmemb, std::string *s);

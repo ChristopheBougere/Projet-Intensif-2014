@@ -194,6 +194,45 @@ bool ServerConnector::registerUser(Document& json) {
    return false;
 }
 
+bool ServerConnector::isRecentFalldown(int userId, rapidjson::Document&  json ) {
+   Config* conf = Config::Instance();
+   string apiURL = conf->getConf("apiURL");
+   string userIdString;
+   stringstream out;
+   out << userId;
+   userIdString = out.str();
+
+
+   CURL *curl;
+   CURLcode res;
+
+   string jsonString;
+ 
+   curl = curl_easy_init();
+   if (curl) {
+      string url = apiURL+"isRecentFalldown.php?user_id="+userIdString;
+      char * cStrUrl = new char[url.length()+1];
+      strcpy (cStrUrl, url.c_str());
+      cStrUrl[url.length()]='\0';
+      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &jsonString);
+      res = curl_easy_perform(curl);
+      delete[] cStrUrl;
+
+      if(res != CURLE_OK)
+	 return false;
+      json.Parse<0>(jsonString.c_str());
+      if (!json.IsObject()) {
+	 return false;
+      }
+      curl_easy_cleanup(curl);
+      return true;
+   }
+   return false;
+}
+
+
 size_t serverConnectorWrite(void *ptr, size_t size, size_t nmemb, string *s) {
    size_t new_len = size*nmemb;
    char* tmp = new char[new_len];
