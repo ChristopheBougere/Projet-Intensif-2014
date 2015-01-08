@@ -3,7 +3,8 @@
 Posology::Posology()
 {
     _posology = new std::vector<PosologyStruct>();
-    _alert = new AlertLevel(1);
+    //_alert = new AlertLevel();
+    _alert.setType(1);
 }
 
 void Posology::setTimeU(int hour, int minute, int second)

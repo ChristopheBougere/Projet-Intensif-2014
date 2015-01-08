@@ -1,11 +1,11 @@
 #ifndef SCREENMANAGER_H
 #define SCREENMANAGER_H
 
-//#include "../Utilities/kernel.h"
-
+#include <cstring>
+#include <string>
 #include "Utilities/observer.h"
 
-typedef void (*ScreenCallback)(void);
+typedef void (*ScreenCallback)(char *);
 
 class ScreenManager : public Observer
 {

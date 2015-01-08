@@ -7,10 +7,10 @@ class AlertLevel
 {
 public:
     AlertLevel();
-    AlertLevel(int type);
     void disableAlert(void);
     int getCriticityLevel(void);
     int getType(void);
+    void setType(int value);
     void updateCriticity(void);
     bool getAlert(void);
 

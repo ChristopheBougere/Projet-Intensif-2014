@@ -13,5 +13,5 @@
 char* getDateStr(struct tm *t);
 //static void *clock_thread(void *data);
 void screen(void);
-void notify_med();
-void notify_drawer();
+void notify_med(char *msg);
+void notify_drawer(char *msg);

@@ -24,7 +24,7 @@ int main()
 	medDistrib.AddObs(&kernel);
 	medDistrib.AddObs(&screenmanager);
 
-	screen();
+	//screen();
 	
     return 0;
 }

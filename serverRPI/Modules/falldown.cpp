@@ -11,7 +11,7 @@ void Falldown::Change(int valeur)
     Notify();
 }
 
-int Falldown::Statut(void) const
+std::string  Falldown::Statut(void) const
 {
-       return _criticity;
+       return "falldown";//std:to_string(_criticity);
 }
