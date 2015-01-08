@@ -15,22 +15,20 @@ MedDistrib::MedDistrib()
 {
     std::cout << "MedDistrib() : demarrage du module" << std::endl;
 
-    _alert = new AlertLevel();
-   _alert->setType(1);
     _user_id = 1; // TODO
 
     std::thread t_posology(&MedDistrib::getPosology, this);
 
     // TEST
     Posology *newPoso = new Posology();
-    newPoso->setTimeU(12, 11, 00);
+    newPoso->setTimeU(12, 21, 00);
     newPoso->addPosology("A", 1);
 
     Posology *newPoso1 = new Posology();
-    newPoso1->setTimeU(12, 25, 00);
+    newPoso1->setTimeU(12, 22, 00);
     newPoso1->addPosology("A", 1);
 
-   // _posologyList.push_back(*newPoso);
+    _posologyList.push_back(*newPoso);
     _posologyList.push_back(*newPoso1);
     
     // END TEST
@@ -41,17 +39,14 @@ MedDistrib::MedDistrib()
         {
             Posology actPoso = _posologyList.at(c);
             std::thread t_taken(&MedDistrib::checkPosology, this, &actPoso);
-            if(t_taken.joinable())
-	    {
-		t_taken.join();
-	    }
-	    //t_taken.detach();
+            t_taken.join();
+
+
             _threadList.push_back(std::move(t_taken));
-	    
         }
     }
 
-    std::cout << "TEST" << std::endl;
+
     /*for(int c = 0 ; c < _posologyList.size() ; c++)
     {
         _threadList.at(c).detach();
@@ -61,9 +56,22 @@ MedDistrib::MedDistrib()
     t_posology.detach();
 }
 
-int MedDistrib::Statut() const
+std::string MedDistrib::Statut() const
 {
-    return 0; //TODO
+    std::string res = "";
+    for(int c = 0 ; c < (int) _posologyList.size() ; c++)
+    {
+        Posology actPoso = _posologyList.at(c);
+        AlertLevel tmpAlert = actPoso.getAlert();
+        if(tmpAlert.getAlert())
+        {
+            res = actPoso.getStringPosology();
+            break;
+        }
+
+    }
+
+    return res;
 }
 
 void MedDistrib::addPosology(std::string name, int quantity, int hour, int minutes, int seconds)
@@ -97,12 +105,13 @@ void MedDistrib::checkPosology(Posology *poso)
         int secNow = timeNow->calculateSec();
 
         int total = secPoso - secNow;
-        std::cout << "secPoso :" << secPoso  << std::endl;
-	std::cout << "secNow  :" << secNow << std::endl;
+        std::cout << total << std::endl;
+
+        AlertLevel tmpAlert = poso->getAlert();
 
         if( (secPoso - secNow) > 0) // Pas l'heure de prendre
         {
-            std::cout << "MedDistrib() : aucune action a effectuer (wait " << (secPoso - secNow) << " sec)"  << std::endl;
+            std::cout << "MedDistrib() : aucune action a effectuer" << std::endl;
             sleep(secPoso - secNow);
         } else if ((secPoso - secNow) <= 0 && (secPoso - secNow) >= - DELAY_BEFORE_ACTION)
         {
@@ -112,8 +121,9 @@ void MedDistrib::checkPosology(Posology *poso)
             {
                 Notify();
             } else {
-                _alert->activateAlert();
-                sc.sendAlert(_user_id, _alert->getType(), _alert->getCriticityLevel());
+                tmpAlert.updateCriticity();
+                this->Statut();
+                sc.sendAlert(_user_id, tmpAlert.getType(), tmpAlert.getCriticityLevel());
                 std::cout << "MedDistrib() : medicaments a prendre (1)" << std::endl;
                 sleep(DELAY_BEFORE_ACTION); // Attente de 20 min
             }
@@ -125,8 +135,9 @@ void MedDistrib::checkPosology(Posology *poso)
             {
                  Notify();
             } else {
-                _alert->updateCriticity();
-                sc.sendAlert(_user_id, _alert->getType(), _alert->getCriticityLevel());
+                tmpAlert.updateCriticity();
+                this->Statut();
+                sc.sendAlert(_user_id, tmpAlert.getType(), tmpAlert.getCriticityLevel());
                 std::cout << "MedDistrib() : medicaments a prendre (2)" << std::endl;
                 sleep(DELAY_BEFORE_ACTION); // Attente de 20 min
             }
@@ -138,8 +149,9 @@ void MedDistrib::checkPosology(Posology *poso)
             {
                  Notify();
             } else {
-                _alert->updateCriticity();
-                sc.sendAlert(_user_id, _alert->getType(), _alert->getCriticityLevel());
+                tmpAlert.updateCriticity();
+                this->Statut();
+                sc.sendAlert(_user_id, tmpAlert.getType(), tmpAlert.getCriticityLevel());
                 std::cout << "MedDistrib() : medicaments a prendre (3)" << std::endl;
                 sleep(DELAY_BEFORE_ACTION); // Attente de 20 min
             }
@@ -151,16 +163,26 @@ void MedDistrib::checkPosology(Posology *poso)
 
 void MedDistrib::getPosology()
 {
+    static int firstTime = 0;
     int i = 0;
+    ServerConnector sc;
+
     while(i != -1)
     {
         TimeU *timeTwoHours = new TimeU(2, 0, 0);
         TimeU *timeNow = new TimeU();
         timeNow->setRealTime();
 
-        if(timeNow->getHours() == 2)
+        if(timeNow->getHours() == 2 || firstTime == 0)
         {
             // TODO : Lancer le GetPosology du serveur
+            rapidjson::Document doc;
+            sc.getPosology(_user_id, doc);
+
+            while(doc)
+
+
+            firstTime = 1;
         } else {
             unsigned int res = timeNow->Difference(timeTwoHours);
             sleep(res);
