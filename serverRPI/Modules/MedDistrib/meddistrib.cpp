@@ -6,6 +6,7 @@
 
 #include <ctime>
 #include "time.h"
+#include "../../Web/serverConnector.h"
 #include "../../Utilities/timeu.h"
 
 #define DELAY_BEFORE_ACTION 30 //1200 // = 20min
@@ -13,6 +14,9 @@
 MedDistrib::MedDistrib()
 {
     std::cout << "MedDistrib() : demarrage du module" << std::endl;
+
+    _alert = new AlertLevel(1);
+    _user_id = 1; // TODO
 
     std::thread t_posology(&MedDistrib::getPosology, this);
 
@@ -67,9 +71,16 @@ void MedDistrib::addPosology(std::string name, int quantity, int hour, int minut
 
 }
 
-void MedDistrib::checkPosology(Posology *poso) // TODO
+void MedDistrib::checkPosology(Posology *poso)
 {
     int i = 0;
+    ServerConnector sc;
+
+    /*rapidjson::Document doc;
+    sc.registerUser(doc);
+
+    int user_id = doc["user_id"].GetInt();*/
+
     while(i != -1)
     {
 
@@ -95,7 +106,8 @@ void MedDistrib::checkPosology(Posology *poso) // TODO
             {
                 Notify();
             } else {
-                // TODO : sendAlert() niveau 1 !
+                _alert.activateAlert();
+                sc.sendAlert(_user_id, _alert.getType(), _alert.getCriticityLevel());
                 std::cout << "MedDistrib() : medicaments a prendre (1)" << std::endl;
                 sleep(DELAY_BEFORE_ACTION); // Attente de 20 min
             }
@@ -107,7 +119,8 @@ void MedDistrib::checkPosology(Posology *poso) // TODO
             {
                  Notify();
             } else {
-                // TODO : sendAlert() niveau 2 !
+                _alert.updateCriticity();
+                sc.sendAlert(_user_id, _alert.getType(), _alert.getCriticityLevel());
                 std::cout << "MedDistrib() : medicaments a prendre (2)" << std::endl;
                 sleep(DELAY_BEFORE_ACTION); // Attente de 20 min
             }
@@ -119,7 +132,8 @@ void MedDistrib::checkPosology(Posology *poso) // TODO
             {
                  Notify();
             } else {
-                // TODO : sendAlert() niveau 3 !
+                _alert.updateCriticity();
+                sc.sendAlert(_user_id, _alert.getType(), _alert.getCriticityLevel());
                 std::cout << "MedDistrib() : medicaments a prendre (3)" << std::endl;
                 sleep(DELAY_BEFORE_ACTION); // Attente de 20 min
             }

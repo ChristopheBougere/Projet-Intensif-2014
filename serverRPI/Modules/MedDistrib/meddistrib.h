@@ -2,6 +2,7 @@
 #define MEDDISTRIB_H
 
 #include "../../Utilities/observable.h"
+#include "../../Utilities/alertlevel.h"
 #include "posology.h"
 
 #include <string>
@@ -22,7 +23,8 @@ private:
     std::vector<Posology> _posologyList;
     std::vector<std::thread> _threadList;
 
-
+    AlertLevel _alert;
+    int _user_id;
 };
 
 #endif // MEDDISTRIB_H
