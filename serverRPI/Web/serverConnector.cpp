@@ -31,6 +31,7 @@
 #include <string>
 #include <sstream>
 #include <curl/curl.h>
+#include "httpDownloader.h"
 #include "../Utilities/config.h"
 #include "serverConnector.h"
 
@@ -45,34 +46,18 @@ bool ServerConnector::getPosology(int userId, Document& json) {
    out << userId;
    userIdString = out.str();
 
-
-   CURL *curl;
-   CURLcode res;
-
    string jsonString;
  
-   curl = curl_easy_init();
-   if (curl) {
-      string url = apiURL+"getPosology.php?pi=true&user_id="+userIdString;
-      char * cStrUrl = new char[url.length()+1];
-      strcpy (cStrUrl, url.c_str());
-      cStrUrl[url.length()]='\0';
-      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &jsonString);
-      res = curl_easy_perform(curl);
-      delete[] cStrUrl;
+   HTTPDownloader downloader;
+   string url = apiURL+"getPosology.php?pi=true&user_id="+userIdString;
+   jsonString = downloader.download(url);
 
-      if(res != CURLE_OK)
-	 return false;
-      json.Parse<0>(jsonString.c_str());
-      if (!json.IsArray()) {
-	 return false;
-      }
-      curl_easy_cleanup(curl);
-      return true;
+   json.Parse<0>(jsonString.c_str());
+   if (!json.IsArray()) {
+      cout << "json is not array" << endl;
+      return false;
    }
-   return false;
+   return true;
 }
 
 bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel) {
