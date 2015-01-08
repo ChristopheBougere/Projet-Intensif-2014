@@ -6,18 +6,11 @@ AlertLevel::AlertLevel()
     _isActive = false;
 }
 
-void AlertLevel::setType(int type)
+AlertLevel::AlertLevel(int type)
 {
+    _criticityLevel = 1;
+    _isActive = false;
     _type = type;
-}
-
-void AlertLevel::activateAlert()
-{
-    if(!_isActive)
-    {
-        _isActive = true;
-        _criticityLevel = 1;
-    }
 }
 
 void AlertLevel::disableAlert()
@@ -43,6 +36,11 @@ int AlertLevel::getType()
 
 void AlertLevel::updateCriticity()
 {
+    if(!_isActive)
+    {
+        _isActive = true;
+        _criticityLevel = 1;
+    }
     if(_isActive)
     {
         if(_criticityLevel < 3)
@@ -50,6 +48,11 @@ void AlertLevel::updateCriticity()
             _criticityLevel++;
         }
     }
+}
+
+bool AlertLevel::getAlert()
+{
+    return _isActive;
 }
 
 

@@ -13,18 +13,20 @@ class MedDistrib : public Observable
 {
 public:
     MedDistrib();    
-    int Statut(void) const;
+    std::string Statut(void) const;
 
     void addPosology(std::string name, int quantity, int hour, int minutes, int seconds);
     void checkPosology(Posology *poso);
     void getPosology(void);
 
+
 private:
     std::vector<Posology> _posologyList;
     std::vector<std::thread> _threadList;
 
-    AlertLevel *_alert;
+    AlertLevel _alert;
     int _user_id;
+    int _position;
 };
 
 #endif // MEDDISTRIB_H

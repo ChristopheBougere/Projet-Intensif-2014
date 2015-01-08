@@ -3,6 +3,7 @@
 Posology::Posology()
 {
     _posology = new std::vector<PosologyStruct>();
+    _alert = new AlertLevel(1);
 }
 
 void Posology::setTimeU(int hour, int minute, int second)
@@ -29,4 +30,23 @@ void Posology::addPosology(std::string name, int quantity)
 std::vector<PosologyStruct> *Posology::getPosology()
 {
     return _posology;
+}
+
+std::string Posology::getStringPosology()
+{
+    std::string res = "";
+
+    for(int c = 0 ; c < (int) _posology->size() ; c++)
+    {
+        PosologyStruct tmpPoso = _posology->at(c);
+        res += std::to_string(tmpPoso.getQuantity()) + " " + tmpPoso.getName() + "\n";
+    }
+
+    return res;
+}
+
+
+AlertLevel Posology::getAlert()
+{
+    return _alert;
 }
