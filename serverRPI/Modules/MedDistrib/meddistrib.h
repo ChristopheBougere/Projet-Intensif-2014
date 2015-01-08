@@ -23,7 +23,7 @@ private:
     std::vector<Posology> _posologyList;
     std::vector<std::thread> _threadList;
 
-    AlertLevel _alert;
+    AlertLevel *_alert;
     int _user_id;
 };
 

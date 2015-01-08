@@ -6,10 +6,8 @@ AlertLevel::AlertLevel()
     _isActive = false;
 }
 
-AlertLevel::AlertLevel(int type)
+void AlertLevel::setType(int type)
 {
-    _criticityLevel = 1;
-    _isActive = false;
     _type = type;
 }
 
