@@ -23,7 +23,8 @@ $request = "select d.name, h.quantity, h.posology_time "
         . "and p.drug_id = d.id "
         . "and h.posology_id = p.id "
         . "and start_date <= current_date "
-        . "and end_date >= current_date";
+        . "and end_date >= current_date "
+        . "order by h.posology_time";
 
 $rs = $db->Execute($request,array($userId));
 if (!$rs) {
@@ -35,22 +36,53 @@ if (!$rs) {
     }
 }
 
-$drugs = array();
-while ($array = $rs->FetchRow()) {
-    $drug = $array["name"];
-    $quantity = intval($array["quantity"]);
-    $hour = $array["posology_time"];
-    if (!array_key_exists($drug,$drugs)) {
-        $drugs[$drug] = array();
-    }
-    $drugs[$drug][] = array("quantity"=>$quantity,"hour"=>$hour);
-}
-$json=array();
-foreach ($drugs as $drug=>$posology) {
-    $json[] = array("name"=>$drug,"posology"=>$posology);
-}
-$jsonString = json_encode($json);
 
-header('Content-Type: application/json');
-echo $jsonString;
+if (array_key_exists("pi", $tab) && !empty($tab["pi"]) && strcasecmp($tab["pi"], "true")==0) {
+    $times = array();
+    while ($array = $rs->FetchRow()) {
+        $drug = $array["name"];
+        $quantity = intval($array["quantity"]);
+        $time = $array["posology_time"];
+        $timeTab = split(":",$time);
+        $hour = $timeTab[0];
+        $minute = $timeTab[1];
+        if (!array_key_exists($time, $times)) {
+            $times[$time]=array();
+            $times[$time]["hour"] = $hour;
+            $times[$time]["minute"] = $minute;
+            $times[$time]["drugs"] = array();
+        }
+        $times[$time]["drugs"][]=array("name"=>$drug,"quantity"=>$quantity);
+    }
+    $json=array();
+    foreach($times as $time) {
+        $json[]=$time;
+    }
+    $jsonString = json_encode($json);
+
+    header('Content-Type: application/json');
+    echo $jsonString; 
+} else {
+    $drugs = array();
+    while ($array = $rs->FetchRow()) {
+        $drug = $array["name"];
+        $quantity = intval($array["quantity"]);
+        $hour = $array["posology_time"];
+        if (!array_key_exists($drug,$drugs)) {
+            $drugs[$drug] = array();
+        }
+        $drugs[$drug][] = array("quantity"=>$quantity,"hour"=>$hour);
+    }
+    $json=array();
+    foreach ($drugs as $drug=>$posology) {
+        $json[] = array("name"=>$drug,"posology"=>$posology);
+    }
+    $jsonString = json_encode($json);
+
+    header('Content-Type: application/json');
+    echo $jsonString; 
+}
+
+
+
 ?>

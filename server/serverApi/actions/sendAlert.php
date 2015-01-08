@@ -58,7 +58,7 @@ if (!$rs) {
 
 if ($alertLevel >= 2) {
     $messages = array (
-    1=>"La personne que vous suivez n'a pas pris son taitement",
+    1=>"La personne que vous suivez n'a pas pris son traitement",
     2=>"La personne que vous suivez a chuté et n'a pas donné d'informations",
     3=>"La personne que vous suivez demande de l'aide"
     );

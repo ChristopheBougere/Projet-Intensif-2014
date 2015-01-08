@@ -53,7 +53,7 @@ bool ServerConnector::getPosology(int userId, Document& json) {
  
    curl = curl_easy_init();
    if (curl) {
-      string url = apiURL+"getPosology.php?user_id="+userIdString;
+      string url = apiURL+"getPosology.php?pi=true&user_id="+userIdString;
       char * cStrUrl = new char[url.length()+1];
       strcpy (cStrUrl, url.c_str());
       cStrUrl[url.length()]='\0';
