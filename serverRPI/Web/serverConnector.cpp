@@ -30,7 +30,6 @@
 #include <cstring>
 #include <string>
 #include <sstream>
-#include <curl/curl.h>
 #include "httpDownloader.h"
 #include "../Utilities/config.h"
 #include "serverConnector.h"
@@ -79,26 +78,11 @@ bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel) {
    outAL << alertLevel;
    alertLevelString = outAL.str();
 
-   CURL *curl;
-   CURLcode res;
-   string voidString;
-   curl = curl_easy_init();
-   if (curl) {
-      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString;
-      char * cStrUrl = new char[url.length()+1];
-      strcpy (cStrUrl, url.c_str());
-      cStrUrl[url.length()]='\0';
-      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &voidString);
-      res = curl_easy_perform(curl);
-      delete[] cStrUrl;
-      if(res != CURLE_OK)
-	 return false;
-      curl_easy_cleanup(curl);
-      return true;
-   }
-   return false;
+   HTTPDownloader downloader;
+   string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString;
+   downloader.download(url);
+  
+   return true;
 }
 
 bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel, string streamUrl) {
@@ -120,26 +104,11 @@ bool ServerConnector::sendAlert(int userId, int alertType, int alertLevel, strin
    outAL << alertLevel;
    alertLevelString = outAL.str();
 
-   CURL *curl;
-   CURLcode res;
-   curl = curl_easy_init();
-   string voidString;
-   if (curl) {
-      string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString+"&stream_url="+streamUrl;
-      char * cStrUrl = new char[url.length()+1];
-      strcpy (cStrUrl, url.c_str());
-      cStrUrl[url.length()]='\0';
-      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &voidString);
-      res = curl_easy_perform(curl);
-      delete[] cStrUrl;
-      if(res != CURLE_OK)
-	 return false;
-      curl_easy_cleanup(curl);
-      return true;
-   }
-   return false;
+   HTTPDownloader downloader;
+   string url = apiURL+"sendAlert.php?user_id="+userIdString+"&alert_type="+alertTypeString+"&alert_level="+alertLevelString+"&stream_url="+streamUrl;
+   downloader.download(url);
+
+   return true;
 }
 
 
@@ -152,31 +121,16 @@ bool ServerConnector::registerUser(Document& json) {
 
    string jsonString;
  
-   curl = curl_easy_init();
-   if (curl) {
-      string url = apiURL+"registerUser.php";
-      char * cStrUrl = new char[url.length()+1];
-      strcpy (cStrUrl, url.c_str());
-      cStrUrl[url.length()]='\0';
-      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &jsonString);
-      res = curl_easy_perform(curl);
-      delete[] cStrUrl;
-      
-      if(res != CURLE_OK) {
-	 cerr << res << endl;
-	 return false;
-      }
-      json.Parse<0>(jsonString.c_str());
-      if (!json.IsObject()) {
-	 cerr << "is not object" << endl;
-	 return false;
-      }
-      curl_easy_cleanup(curl);
-      return true;
+   HTTPDownloader downloader;
+   string url = apiURL+"registerUser.php";
+   jsonString = downloader.download(url);
+
+   json.Parse<0>(jsonString.c_str());
+   if (!json.IsObject()) {
+      cerr << "is not object" << endl;
+      return false;
    }
-   return false;
+   return true;
 }
 
 bool ServerConnector::isRecentFalldown(int userId, rapidjson::Document&  json ) {
@@ -187,42 +141,15 @@ bool ServerConnector::isRecentFalldown(int userId, rapidjson::Document&  json ) 
    out << userId;
    userIdString = out.str();
 
-
-   CURL *curl;
-   CURLcode res;
-
    string jsonString;
  
-   curl = curl_easy_init();
-   if (curl) {
-      string url = apiURL+"isRecentFalldown.php?user_id="+userIdString;
-      char * cStrUrl = new char[url.length()+1];
-      strcpy (cStrUrl, url.c_str());
-      cStrUrl[url.length()]='\0';
-      curl_easy_setopt(curl, CURLOPT_URL, cStrUrl);
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, serverConnectorWrite);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &jsonString);
-      res = curl_easy_perform(curl);
-      delete[] cStrUrl;
+   HTTPDownloader downloader;
+   string url = apiURL+"isRecentFalldown.php?user_id="+userIdString;
+   jsonString = downloader.download(url);
 
-      if(res != CURLE_OK)
-	 return false;
-      json.Parse<0>(jsonString.c_str());
-      if (!json.IsObject()) {
-	 return false;
-      }
-      curl_easy_cleanup(curl);
-      return true;
+   json.Parse<0>(jsonString.c_str());
+   if (!json.IsObject()) {
+      return false;
    }
-   return false;
-}
-
-
-size_t serverConnectorWrite(void *ptr, size_t size, size_t nmemb, string *s) {
-   size_t new_len = size*nmemb;
-   char* tmp = new char[new_len];
-   memcpy(tmp, ptr, size*nmemb);
-   s->append(tmp);
-   delete[] tmp;
-   return size*nmemb;
+   return true;
 }
