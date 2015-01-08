@@ -3,6 +3,9 @@
 
 #include "../Utilities/observable.h"
 
+#include <string>
+#include <thread>
+
 class Falldown : public Observable
 {
 public:
@@ -11,6 +14,9 @@ public:
     std::string Statut(void) const;
 
 private:
+    
+    void spoofServer();
+
     int _criticity;
 };
 

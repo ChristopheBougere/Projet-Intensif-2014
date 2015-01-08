@@ -201,36 +201,38 @@ void MedDistrib::getPosology()
             rapidjson::Document doc;
             sc.getPosology(_user_id, doc);
 
-            //rapidjson::SizeType i = 0;
-	    //const rapidjson::Value& doc1 = doc[i];
-
-	    const char json[] = "{ \"hello\" : \"world\" }";
-
-	    rapidjson::Document d;
-    		d.Parse<0>(json);
-
-    		std::cout << d["hello"].GetString() << std::endl;
-            /*for(rapidjson::SizeType j = 0 ; j < doc.Size() ; j++)
+	    _posologyList.clear();
+            for(rapidjson::SizeType j = 0 ; j < doc.Size() ; j++)
             {
-		const rapidjson::Value& z = doc[j];
+		const rapidjson::Value& time = doc[j];
 
-                const rapidjson::Value& a = z["hour"];
-                std::cout << z["hour"].GetInt();
-            
-                const rapidjson::Value& b = z["minute"];
-                std::cout << b["minute"].GetInt();
+                int hour = time["hour"].GetInt();
+                std::cout << hour <<":";
+		
+                int minute = time["minute"].GetInt();
+                std::cout << minute << std::endl;
 
-                const rapidjson::Value& c = z["drugs"];
+                const rapidjson::Value& drugs = time["drugs"];
                 
+		Posology posology;
+		posology.setTimeU(hour,minute,0);
                 // rapidjson uses SizeType instead of size_t.
-                for (rapidjson::SizeType i = 0; i < c.Size(); i++)
+                for (rapidjson::SizeType i = 0; i < drugs.Size(); i++)
                 {
-                    const rapidjson::Value& d = c[i];
+                    const rapidjson::Value& drug = drugs[i];
             
-                    std::cout << d["name"].GetString();
-                    std::cout << d["quantity"].GetInt();
-                }        
-            }*/
+		    std::string drugName = drug["name"].GetString();
+		    int drugQuantity = drug["quantity"].GetInt();
+
+                    std::cout << drug["name"].GetString() << "-";
+                    std::cout << drug["quantity"].GetInt() << std::endl;
+
+		    posology.addPosology(drugName,drugQuantity);
+
+		    
+                }   
+		_posologyList.push_back(posology);
+            }
 
             firstTime = 1;
 	    sleep(3600);
