@@ -1,12 +1,13 @@
 #include "screen.h"
 
-void notify_med() {
+void notify_med(char *msg) {
 	printf("Il faut prendre les medicaments\n");
 	// Changement d'écran
 	genieWriteObj(GENIE_OBJ_FORM, 1, 0);
+	genieWriteStr(2, msg);
 }
 
-void notify_drawer() {
+void notify_drawer(char *msg) {
 	printf("Le tiroir a été fermé.");
 	genieWriteObj(GENIE_OBJ_FORM, 0, 0);	
 }
@@ -57,7 +58,7 @@ static void *clock_thread(void *data) {
 		genieWriteObj(GENIE_OBJ_LED_DIGITS, OBJ_H, hour);
 		genieWriteObj(GENIE_OBJ_LED_DIGITS, OBJ_M, min);
                 genieWriteStr(0, getDateStr(t));
-		
+		genieWriteStr(1, getDateStr(t));
                 
        		usleep(1000000);
 	}
