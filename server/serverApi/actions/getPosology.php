@@ -44,8 +44,8 @@ if (array_key_exists("pi", $tab) && !empty($tab["pi"]) && strcasecmp($tab["pi"],
         $quantity = intval($array["quantity"]);
         $time = $array["posology_time"];
         $timeTab = split(":",$time);
-        $hour = $timeTab[0];
-        $minute = $timeTab[1];
+        $hour = intval($timeTab[0]);
+        $minute = intval($timeTab[1]);
         if (!array_key_exists($time, $times)) {
             $times[$time]=array();
             $times[$time]["hour"] = $hour;
