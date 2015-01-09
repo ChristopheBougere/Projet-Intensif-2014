@@ -31,12 +31,12 @@ Observer::~Observer()
        }
 }
 
-void Observer::AddObs( Observable* obs)
+void Observer::AddObservable( Observable* obs)
 {
     m_list.push_back(obs);
 }
 
-void Observer::DelObs(Observable* obs)
+void Observer::DelObservable(Observable* obs)
 {
     //on enlève l'objet observé.
    iterator it= std::find(m_list.begin(),m_list.end(),obs);

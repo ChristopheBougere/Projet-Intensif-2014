@@ -15,7 +15,7 @@ class MedDistrib : public Observable
 public:
     MedDistrib();    
     std::string Statut(void) const;
-    bool isDrawerOpen();
+    void isDrawerOpen();
     void addPosology(std::string name, int quantity, int hour, int minutes, int seconds);
     void checkPosology(Posology *poso);
     void getPosology(void);
@@ -28,6 +28,7 @@ private:
     AlertLevel _alert;
     int _user_id;
     int _position;
+    bool _drawedHasBeenOpened;
 };
 
 #endif // MEDDISTRIB_H

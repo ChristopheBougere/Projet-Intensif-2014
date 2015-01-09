@@ -17,8 +17,8 @@ public:
     virtual ~Observer() = 0;
     virtual void Update(const Observable* observable) const ;
 
-    void AddObs(Observable* obs);
-    void DelObs(Observable* obs);
+    void AddObservable(Observable* obs);
+    void DelObservable(Observable* obs);
 
 protected:
   std::list<Observable*> m_list;
