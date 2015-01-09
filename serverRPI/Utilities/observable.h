@@ -21,9 +21,8 @@ class Observable
 
     virtual std::string Statut(void) const =0;
 
- protected:
     void Notify(void);
-
+ protected:
     std::list<Observer*> m_list;
 
     typedef std::list<Observer*>::iterator iterator;

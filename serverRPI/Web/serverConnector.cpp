@@ -116,9 +116,6 @@ bool ServerConnector::registerUser(Document& json) {
    Config* conf = Config::Instance();
    string apiURL = conf->getConf("apiURL");
 
-   CURL *curl;
-   CURLcode res;
-
    string jsonString;
  
    HTTPDownloader downloader;

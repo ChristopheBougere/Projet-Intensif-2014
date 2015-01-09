@@ -1,10 +1,37 @@
 #include "screen.h"
+#include "screenmanager.h"
+#include "Utilities/config.h"
+
+static int hasPushedYes = false;
+static int falled = false;
+
+static ScreenManager* smanager;
+
+void setScreenManager(ScreenManager* sm) {
+	smanager = sm;
+}
+
+int getHasPushedYes() {
+	return hasPushedYes;
+}
+
+void notify_fall(char *msg) {
+	printf("Chute... Avez-vous besoin d'aide?\n");
+        // Changement d'écran
+        genieWriteObj(GENIE_OBJ_FORM, 2, 0);
+	falled = true;
+}
 
 void notify_med(char *msg) {
+  if (strcmp(msg,"drugstaken")==0) {
+    printf("medics pris\n");
+    genieWriteObj(GENIE_OBJ_FORM,0,0);
+  } else {
 	printf("Il faut prendre les medicaments\n");
 	// Changement d'écran
 	genieWriteObj(GENIE_OBJ_FORM, 1, 0);
 	genieWriteStr(2, msg);
+  }
 }
 
 void notify_drawer(char *msg) {
@@ -16,7 +43,7 @@ char* getDateStr(struct tm *t) {
 	int wday = t->tm_wday;
 	int mday = t->tm_mday;
 	int mon = t->tm_mon;
-	char *jour_semaine;
+	const char *jour_semaine;
 	switch(wday) {
 		case 0: jour_semaine = "Dimanche"; break;
 		case 1: jour_semaine = "Lundi"; break;
@@ -27,7 +54,7 @@ char* getDateStr(struct tm *t) {
                 case 6: jour_semaine = "Samedi"; break;
 		default: jour_semaine = ""; break;
 	}
-	char *mois;
+	const char *mois;
 	switch(mon) {
 		case 0: mois = "Janvier"; break;
 		case 1: mois = "F�vrier"; break;
@@ -83,15 +110,28 @@ void screen(void) {
 .index, reply.data);
 			// Si c'est le bouton NON
 			if(reply.cmd == 7 && reply.object == 6 && reply.index == 3) {
+				hasPushedYes = 1;
 				ServerConnector sc;
 				// USER ID A LA MAIN EN ATTENDANT LE NFC
 				int user_id = 1;
 				int alert_type = 3;
 				int alert_level = 2;
-				sc.sendAlert(user_id, alert_type, alert_level);
+				if(!falled) {
+					std::system("raspivid -o - -t 600000 -w 500 -h 500 | cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8554}' :demux=h264 &");
+					Config conf;
+    					std::string ip = conf.getConf("myIp");
+					std::string url = "http://" + ip + ":8554";
+					sc.sendAlert(user_id, alert_type, alert_level,ip);
+				} else {
+					falled = false;
+					smanager->Notify();
+				}
 				genieWriteObj(GENIE_OBJ_FORM, 3, 0);
 				sleep(60);
 				genieWriteObj(GENIE_OBJ_FORM, 0, 0);
+				hasPushedYes = 0;
+			} else {
+				hasPushedYes = 0;
 			}
 		}
 		usleep(10000);

@@ -2,7 +2,7 @@
 
 AlertLevel::AlertLevel()
 {
-    _criticityLevel = 1;
+    _criticityLevel = 0;
     _isActive = false;
 }
 
@@ -37,7 +37,7 @@ void AlertLevel::updateCriticity()
     if(!_isActive)
     {
         _isActive = true;
-        _criticityLevel = 1;
+        _criticityLevel = 0;
     }
     if(_isActive)
     {

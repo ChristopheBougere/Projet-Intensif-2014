@@ -3,10 +3,10 @@ CFLAGS = -Wall -std=c++0x
 EXEC_NAME = serverRPI
 INCLUDES =
 LIBS = -Llibs -lgeniePi -lwiringPi -lpthread -lcurl
-OBJ_FILES = main.o screen.o Utilities/kernel.o Utilities/observable.o Utilities/observer.o Modules/falldown.o \
+OBJ_FILES = main.o screen.o Utilities/kernel.o Utilities/observable.o Utilities/observer.o Modules/FallDown/falldown.o \
             Modules/MedDistrib/meddistrib.o Modules/MedDistrib/posology.o Modules/MedDistrib/posologystruct.o \
             Manager/kernelmanager.o libs/tinyxml2.o Utilities/config.o \
-            Web/serverConnector.o Utilities/timeu.o screenmanager.o Utilities/alertlevel.o
+            Web/serverConnector.o Web/httpDownloader.o Utilities/timeu.o screenmanager.o Utilities/alertlevel.o
 INSTALL_DIR = ./
 
 all : $(EXEC_NAME)
