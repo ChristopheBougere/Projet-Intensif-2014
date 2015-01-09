@@ -41,7 +41,7 @@ $db = getDatabaseConnection();
 			$minute = 0;
 			while ($minute<60) {
 				echo "<option>$minute</option>";
-				$minute = $minute+5;
+				$minute = $minute+1;
 			}
 			?></select></p><hr/>");
 			$( ".quantity" ).selectmenu() .selectmenu( "menuWidget" ).addClass( "overflow" );
