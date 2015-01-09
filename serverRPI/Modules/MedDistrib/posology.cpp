@@ -1,10 +1,15 @@
 #include "posology.h"
-
+ 
 Posology::Posology()
 {
     _posology = new std::vector<PosologyStruct>();
-    //_alert = new AlertLevel();
-    _alert.setType(1);
+    _alert = new AlertLevel();
+    _alert->setType(1);
+}
+
+Posology::~Posology() {
+//	delete _posology;
+//	delete _alert;
 }
 
 void Posology::setTimeU(int hour, int minute, int second)
@@ -47,7 +52,7 @@ std::string Posology::getStringPosology()
 }
 
 
-AlertLevel Posology::getAlert()
+AlertLevel* Posology::getAlert()
 {
     return _alert;
 }

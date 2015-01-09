@@ -3,4 +3,8 @@
   <name>apiURL</name>
   <value>http://192.168.5.101/serverApi/actions/</value>
 </entry>
+<entry>
+  <name>myIp</name>
+  <value>192.168.5.102</value>
+</entry>
 </root>

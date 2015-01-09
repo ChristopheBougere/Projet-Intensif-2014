@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CWatch</string>
+    <string name="close">Fermer</string>
+    <string name="taken">Prise des médicaments</string>
+    <string name="takenBis">Prise des médicaments\n(Rappel)</string>
+
+    <string name="activate">Activer les alarmes</string>
+    <string name="approach">Appairez vous à la base.</string>
+    <string name="menu_settings">Settings</string>
+
+</resources>

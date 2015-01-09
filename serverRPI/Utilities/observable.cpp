@@ -10,7 +10,7 @@ void Observable::AddObs(Observer *obs)
     m_list.push_back(obs);
 
     //et on lui donne un nouvel objet observé.
-    obs->AddObs(this);
+    obs->AddObservable(this);
 }
 
 void Observable::DelObs(Observer *obs)
@@ -30,7 +30,7 @@ Observable::~Observable()
 
        for(;itb!=ite;++itb)
        {
-               (*itb)->DelObs(this);
+               (*itb)->DelObservable(this);
        }
 }
 
