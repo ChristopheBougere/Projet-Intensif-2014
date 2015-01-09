@@ -20,16 +20,14 @@ ScreenManager::~ScreenManager() {}
 
 void ScreenManager::Update(const Observable* observable) const
 {
-	std::cout << "Onn prÃ©vient le gestionnaire d'Ã©cran qu'il faut prendre des mÃ©s" << std::endl;
 	std::string msg = observable->Statut();
-	std::cout << "message: " << msg << std::endl;
+	std::cout << "message reçu par screen manager  : " << msg << std::endl;
 	char * S = new char[msg.length() + 1];
 	std::strcpy(S, msg.c_str());
 	if(msg == "") {
 		drawer_notify(S);
 	} else if(msg == "falldown") {
 		fall_notify(S);
-		//Notify(Ã);
 	} else {
 		med_notify(S);
 	}

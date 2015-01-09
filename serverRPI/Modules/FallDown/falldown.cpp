@@ -5,10 +5,7 @@ Falldown::Falldown()
 	std::cout << "FallDown() : demarrage du module" << std::endl;
 
 	std::thread spoofer(&Falldown::spoofServer,this);
-
-	//if (spoofer.joinable()) {
-	   spoofer.detach();
-	//}
+	spoofer.detach();
 
 }
 
@@ -23,15 +20,14 @@ std::string Falldown::getStreamUrl() const {
 }
 
 void Falldown::Update(const Observable* observable) const {
-    std::cout << "On est tombé et on est dans falldown.cpp" << std::endl;
-	std::string msg = observable->Statut();
-    if(msg == "oui") {
-        ServerConnector sc;
-        std::string url = getStreamUrl();
-        sc.sendAlert(1, 2, 2, url);
-    } else if(msg == "non") {
-
-    }
+   std::string msg = observable->Statut();
+   if(msg == "oui") {
+      ServerConnector sc;
+      std::string url = getStreamUrl();
+      sc.sendAlert(1, 2, 2, url);
+   } else if(msg == "non") {
+      
+   }
 }
 
 void Falldown::Change(int valeur)
@@ -41,22 +37,20 @@ void Falldown::Change(int valeur)
 
 std::string Falldown::Statut(void) const
 {
-       return "falldown";
+   return "falldown";
 }
 
 void Falldown::spoofServer() {
-   
-    std::cout << "spoofer launched" << std::endl;
-    while(1) {
-        ServerConnector sc;
-        rapidjson::Document doc;
-        sc.isRecentFalldown(1, doc);
-	std::cout << "==== fall ====" << doc["recentFalldown"].GetInt() << std::endl;
-	if(doc["recentFalldown"].GetInt() == 1) {
-            // Changer d'écran
-            Notify();
-
-        }
-        sleep(15);
-    }
+   std::cout << "spoofer launched" << std::endl;
+   while(1) {
+      ServerConnector sc;
+      rapidjson::Document doc;
+      sc.isRecentFalldown(1, doc);
+      std::cout << "= fall =" << doc["recentFalldown"].GetInt() << std::endl;
+      if(doc["recentFalldown"].GetInt() == 1) {
+	 // Changer d'écran
+	 Notify();
+      }
+      sleep(10);
+   }
 }

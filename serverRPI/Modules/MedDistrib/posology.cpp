@@ -8,8 +8,6 @@ Posology::Posology()
 }
 
 Posology::~Posology() {
-//	delete _posology;
-//	delete _alert;
 }
 
 void Posology::setTimeU(int hour, int minute, int second)
