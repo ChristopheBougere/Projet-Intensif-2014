@@ -66,7 +66,7 @@ if ($alertLevel >= 2) {
     $select = "Select push_id "
             . "from supervisors as s, users as u "
             . "where u.id = ? "
-            . "and u.supervisor_id = s.id ;";
+            . "and u.supervisor_id = s.id;";
     
     $rs = $db->Execute($select,array($userId));
     if (!$rs) {
@@ -81,7 +81,7 @@ if ($alertLevel >= 2) {
     $time = date('Y-m-d');
     $timeArray = getdate();
     $hour = $timeArray["hours"].":".$timeArray["minutes"].":".$timeArray["seconds"];
-    if ($array = $rs->FetchRow()) {
+    while ($array = $rs->FetchRow()) {
         $pushId = $array["push_id"];
         
         $json = array("message" => $messages[$alertType],
