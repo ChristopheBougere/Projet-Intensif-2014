@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -18,7 +19,7 @@ import com.gcm.R;
  */
 public class Stream extends Activity {
 
-    private String _url = ""; //http://192.168.5.102:8554";
+    private String _url = "";//"http://192.168.5.102:8554";
     private WebView _mWebView;
 
     @Override
@@ -30,10 +31,15 @@ public class Stream extends Activity {
 
         _url = getIntent().getStringExtra("link");
 
+        Log.e("kkurl", _url);
+        Log.e("kkurl", "kkkk :"+_url.equals("http://192.168.5.102:8554"));
         VideoView videoView = (VideoView) findViewById(R.id.myvideoview);
-        String httpLiveUrl = _url;
-        videoView.setVideoURI(Uri.parse(httpLiveUrl));
-        videoView.setMediaController(new MediaController(this));
+        MediaController mc = new MediaController(this);
+        mc.setAnchorView(videoView);
+        mc.setMediaPlayer(videoView);
+        videoView.setMediaController(mc);
+        videoView.setVideoURI(Uri.parse(_url));
+
         videoView.requestFocus();
         videoView.start();
     }

@@ -81,7 +81,7 @@ public class LoadingPosology extends Activity {
 
         }else {
 
-            urlString = urlString.concat("getPosology.php?user_id="+getIdUser(this));
+            urlString = urlString.concat("/serverApi/actions/getPosology.php?user_id="+getIdUser(this));
             Log.e("KKLOAD2",urlString);
             new Treatment().execute();
         }

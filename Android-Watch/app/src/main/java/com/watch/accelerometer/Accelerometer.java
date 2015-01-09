@@ -176,7 +176,7 @@ public class Accelerometer extends Service implements SensorEventListener{
 
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(_context);
                     urlServer = sp.getString("serveur", "Pas de serveur");
-                    urlServer = urlServer.concat("sendAlert.php");
+                    urlServer = urlServer.concat("/serverApi/actions/sendAlert.php");
 
                     HttpPost httppost = new HttpPost(urlServer);
 

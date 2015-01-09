@@ -45,7 +45,7 @@ public class ReminderAlarm extends BroadcastReceiver {
         urlString = sp.getString("serveur", "Pas de serveur");
 
         if(!urlString.equals("Pas de serveur")) {
-            urlString = urlString.concat("AreDrugsTaken.php?user_id=" + getIdUser(_context));
+            urlString = urlString.concat("/serverApi/actions/areDrugsTaken.php?user_id=" + getIdUser(_context));
             new Treatment().execute();
         }
 

@@ -92,7 +92,7 @@ public class Historique extends Activity {
                 _flag = false;
 
             }else {
-                _jArray = JSONfunctions.getJSONFromUrl(urlString.concat("getAlerts.php?user_id="+getIdUser(Historique.this.getApplicationContext())));
+                _jArray = JSONfunctions.getJSONFromUrl(urlString.concat("/serverApi/actions/getAlerts.php?user_id="+getIdUser(Historique.this.getApplicationContext())));
 
                 if (_jArray == null) {
                     _flag = false;

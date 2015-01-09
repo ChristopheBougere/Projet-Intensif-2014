@@ -154,7 +154,7 @@ public class Enregistrement extends Activity {
             protected Void doInBackground(Void... params) {
                 try {
 
-                    urlServer = urlServer.concat("?user_id="+getIdUser(context)+"&push_id="+regId);
+                    urlServer = urlServer.concat("/serverApi/actions/registerSupervisorPushId.php?user_id="+getIdUser(context)+"&push_id="+regId);
 
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpGet httpget = new HttpGet(urlServer);
